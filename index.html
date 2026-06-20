@@ -79,9 +79,11 @@
   .lib-item:focus-visible{ outline:1.5px solid var(--text-muted); outline-offset:-1px; }
   .lib-thumb{
     width:44px; height:44px; border-radius:4px; flex-shrink:0; background:var(--cover);
+    background-image:var(--cover-img, none); background-size:cover; background-position:center;
     display:flex; align-items:center; justify-content:center;
   }
-  .lib-thumb svg{ width:19px; height:19px; color:rgba(255,255,255,.92); }
+  .lib-thumb svg{ width:19px; height:19px; color:rgba(255,255,255,.92); transition:opacity .2s ease; }
+  .lib-item.has-cover-img .lib-thumb svg{ opacity:0; }
   .lib-info{ min-width:0; }
   .lib-name{ font-size:13.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; transition:color .2s ease; }
   .lib-item.is-active .lib-name{ color:var(--green); }
@@ -175,8 +177,9 @@
   .now-dot{ width:5px; height:5px; border-radius:50%; background:var(--green); flex-shrink:0; }
 
   .cover-wrap{ position:relative; aspect-ratio:1/1; border-radius:6px; overflow:hidden; margin-bottom:14px; box-shadow:0 8px 24px rgba(0,0,0,.5); }
-  .cover{ width:100%; height:100%; background:var(--cover); display:flex; align-items:center; justify-content:center; }
-  .cover svg{ width:36%; height:36%; color:rgba(255,255,255,.92); }
+  .cover{ width:100%; height:100%; background:var(--cover); background-image:var(--cover-img, none); background-size:cover; background-position:center; display:flex; align-items:center; justify-content:center; }
+  .cover svg{ width:36%; height:36%; color:rgba(255,255,255,.92); transition:opacity .2s ease; }
+  .card.has-cover-img .cover svg{ opacity:0; }
 
   .play-btn{
     position:absolute; right:8px; bottom:8px; width:46px; height:46px; border-radius:50%; background:var(--green);
@@ -205,10 +208,12 @@
   .np-left{ display:flex; align-items:center; gap:12px; min-width:0; }
   .np-cover{
     position:relative; width:54px; height:54px; border-radius:4px; overflow:hidden; flex-shrink:0;
-    background:var(--cover, #282828); transition:background .3s ease;
+    background:var(--cover, #282828); background-image:var(--cover-img, none); background-size:cover; background-position:center;
+    transition:background .3s ease;
   }
-  .np-cover-icon{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
+  .np-cover-icon{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; transition:opacity .2s ease; }
   .np-cover-icon svg{ width:21px; height:21px; color:rgba(255,255,255,.85); }
+  .np-cover.has-cover-img .np-cover-icon{ opacity:0; }
   .np-eq{ position:absolute; inset:0; display:flex; align-items:flex-end; justify-content:center; gap:2.5px; padding:15px; background:rgba(0,0,0,.4); opacity:0; transition:opacity .25s ease; }
   .np-eq span{ width:3px; background:var(--green); border-radius:1px; height:20%; }
   .now-playing-bar.is-playing .np-eq{ opacity:1; }
@@ -292,7 +297,7 @@
           <circle cx="16" cy="16" r="16" fill="#1ed760"/>
           <path d="M16 22.5l-5.5-5.2a3.6 3.6 0 0 1 5-5.2l.5.5.5-.5a3.6 3.6 0 1 1 5 5.2L16 22.5z" fill="#0a0a0a"/>
         </svg>
-        <span class="brand-name">Dearr</span>
+        <span class="brand-name">Angel</span>
       </div>
 
       <nav class="nav-list">
@@ -309,7 +314,7 @@
       <div class="sidebar-divider"></div>
 
       <div class="library-cta">
-        <strong>Koleksi Dearr</strong>
+        <strong>Koleksi Angel</strong>
         <p>3 project spesial nungguin buat dibuka.</p>
         <button id="scrollToGrid">Lihat semua</button>
       </div>
@@ -359,7 +364,7 @@
 
         <div class="topbar-mobile-brand">
           <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#1ed760"/><path d="M16 22.5l-5.5-5.2a3.6 3.6 0 0 1 5-5.2l.5.5.5-.5a3.6 3.6 0 1 1 5 5.2L16 22.5z" fill="#0a0a0a"/></svg>
-          <span>Dearr</span>
+          <span>Angel</span>
         </div>
 
         <div class="search-wrap">
@@ -374,13 +379,13 @@
         <div class="main-bg-gradient" aria-hidden="true"></div>
 
         <header class="hero" id="hero">
-          <p class="greeting" id="greeting">Halo, <span class="accent">Dearr</span> 💌</p>
-          <p class="intro">Ini koleksi kecil yang dibuat khusus buat kamu. Klik salah satu kartu untuk salin linknya, terus tinggal tempel ke mana aja kamu mau.</p>
+          <p class="greeting" id="greeting">Halo, <span class="accent">Angel</span> 💌</p>
+          <p class="intro">Ini beberapa website yang dibuat khusus buat kamu. Klik salah satu kartu untuk salin linknya, terus tinggal tempel di chrome kamu.</p>
         </header>
 
         <section class="section" id="made-for-dearr">
           <div class="section-head">
-            <h2 class="section-title">Dibuat untuk Dearr</h2>
+            <h2 class="section-title">Dibuat untuk kamu</h2>
             <span class="section-count">3 project</span>
           </div>
 
@@ -441,7 +446,7 @@
           </div>
         </section>
 
-        <footer class="app-footer">Dibuat dengan ❤️ untuk Dearr</footer>
+        <footer class="app-footer">Dibuat oleh Dearr</footer>
       </div>
     </main>
   </div>
@@ -510,6 +515,20 @@
 (function(){
   "use strict";
 
+  /* =====================================================================
+     GANTI COVER DI SINI
+     Tinggal isi link gambar online (URL) untuk tiap project di bawah ini.
+     Kalau dikosongin (string kosong ''), bakal balik pakai warna gradient
+     bawaan + ikon. Pastikan link gambar diakhiri .jpg/.png/.webp dsb dan
+     bisa diakses publik (misal dari ibb.co, imgur, atau hosting lain).
+  ===================================================================== */
+  var COVER_IMAGES = {
+    'surat-cinta': 'https://files.catbox.moe/cc43pe.png',
+    'galeri-kita': 'https://files.catbox.moe/f2h0bb.png',
+    'wish-list':   'https://files.catbox.moe/osx3r7.png' 
+  };
+  /* ===================================================================== */
+
   var content = document.getElementById('content');
   var topbar = document.getElementById('topbar');
   var cards = document.querySelectorAll('.card');
@@ -542,7 +561,7 @@
     else if(hour < 15) greet = 'Selamat siang';
     else if(hour < 19) greet = 'Selamat sore';
     var el = document.getElementById('greeting');
-    if(el) el.innerHTML = greet + ', <span class="accent">Dearr</span> 💌';
+    if(el) el.innerHTML = greet + ', <span class="accent">Angel</span> 💌';
   }
 
   /* ---------- topbar scroll shadow ---------- */
@@ -667,12 +686,15 @@
     });
 
     npCover.style.setProperty('--cover', coverCss);
+    var imgUrl = COVER_IMAGES[id];
+    npCover.style.setProperty('--cover-img', imgUrl ? 'url("' + imgUrl + '")' : 'none');
+    npCover.classList.toggle('has-cover-img', !!imgUrl);
     npCoverIcon.innerHTML = '';
     if(iconSvgEl){
       npCoverIcon.appendChild(iconSvgEl.cloneNode(true));
     }
     npTitle.textContent = name;
-    npSub.textContent = 'Koleksi Dearr';
+    npSub.textContent = 'Koleksi Angel';
     npStatus.textContent = 'Baru saja disalin';
 
     animateProgress();
@@ -802,6 +824,26 @@
       .add({ targets: '.now-playing-bar', opacity: [0,1], translateY: [16,0], duration: 420 }, '-=600');
   }
 
+  /* ---------- terapkan cover gambar (kalau ada) ---------- */
+  function applyCoverImages(){
+    cards.forEach(function(card){
+      var url = COVER_IMAGES[card.dataset.id];
+      var cover = card.querySelector('.cover');
+      if(url){
+        cover.style.setProperty('--cover-img', 'url("' + url + '")');
+        card.classList.add('has-cover-img');
+      }
+    });
+    libItems.forEach(function(li){
+      var url = COVER_IMAGES[li.dataset.id];
+      var thumb = li.querySelector('.lib-thumb');
+      if(url){
+        thumb.style.setProperty('--cover-img', 'url("' + url + '")');
+        li.classList.add('has-cover-img');
+      }
+    });
+  }
+
   function init(){
     setupGreeting();
     setupScrollTopbar();
@@ -812,6 +854,7 @@
     setupTopbarNav();
     setupBottomTabs();
     setupNpPlay();
+    applyCoverImages();
     playIntroAnimation();
   }
 
